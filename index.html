@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rett Bau – Bau- und Renovierungsarbeiten</title>
+
+<!-- Preconnects -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Font (display=swap für schnelle Darstellung) -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<!-- Preload wichtigste Bilder für sofortige Anzeige -->
+<link rel="preload" as="image" href="images/Willkommen.webp">
+<link rel="preload" as="image" href="images/willkommen.webp">
+<link rel="preload" as="image" href="images/logo.webp">
+<link rel="preload" as="image" href="images/Geschaeftsfuehrer.webp">
+
+<style>
+  :root{
+    --bg:#0b0f1a;
+    --card:#111827; --text:#e5e7eb; --muted:#94a3b8;
+    --gold:#d4af37; --gold2:#b9921f; --ring:#facc15; --header-h:58px;
+    --danger:#ff3b30;
+    --lb-btn-size:44px; --lb-font:22px; --lb-font-close:26px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  html, body{
+    margin:0;
+    font-family:Inter,system-ui,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;
+    color:var(--text);
+    background-color:var(--bg) !important;
+    background-image:none !important;
+    padding-top:var(--header-h);
+  }
+  section, .section, .hero, .lead, #leistungen, #geschaeftsfuehrer, #arbeiten, #kontakt, #impressum, footer {
+    background-color:transparent !important;
+    background-image:none !important;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .container{width:min(1200px,92%);margin-inline:auto}
+  :target{scroll-margin-top:calc(var(--header-h) + 10px)}
+  body.no-scroll{overflow:hidden}
+  body.menu-open{overflow:hidden}
+
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:1000;
+    background-color:var(--bg) !important;
+    background-image:none !important;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    height:var(--header-h);
+  }
+  .top{display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.4rem 0;height:var(--header-h)}
+  .brand{display:flex;align-items:center;gap:.6rem;font-weight:800}
+  .brand a{display:inline-flex;align-items:center}
+  .brand img{height:40px;width:auto;border-radius:8px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.1);cursor:pointer}
+  .nav{display:flex;gap:.3rem;align-items:center}
+  .nav a{padding:.5rem .7rem;border-radius:10px;color:var(--muted)}
+  .nav a:hover{color:var(--text);background:rgba(255,255,255,.06)}
+  .cta{display:flex;gap:.5rem;align-items:center}
+  .btn{display:inline-flex;align-items:center;gap:.45rem;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);padding:.5rem .75rem;border-radius:12px;transition:.2s;white-space:nowrap}
+  .btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.08)}
+  .btn.gold{background:linear-gradient(180deg,var(--gold),var(--gold2));color:#111827;border:none}
+
+  .burger{display:none;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);padding:.5rem;border-radius:10px}
+  .burger svg{width:20px;height:20px}
+  #mobile-menu{display:none;background:rgba(10,14,26,.98) !important;backdrop-filter:blur(10px);}
+  @media (max-width:900px){
+    .nav{display:none}
+    .burger{display:inline-flex}
+    #mobile-menu{display:none; position:absolute; left:0; right:0; top:var(--header-h); z-index:3000;}
+    #mobile-menu.open{display:block}
+    #mobile-menu .menu-panel{
+      margin:8px auto 0;
+      width:min(92vw, 480px);
+      background:rgba(17,24,39,.98);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:16px;
+      box-shadow:0 16px 32px rgba(0,0,0,.45);
+      padding:12px;
+      opacity:0; transform:translateY(-6px);
+      transition:transform .2s ease, opacity .2s ease;
+      backdrop-filter:blur(10px);
+    }
+    #mobile-menu.open .menu-panel{opacity:1; transform:translateY(0)}
+    #mobile-menu .nav{display:flex;flex-direction:column;gap:10px}
+    #mobile-menu .nav a{
+      padding:.95rem 1.1rem;border-radius:12px;color:var(--text);
+      background:rgba(255,255,255,.05); text-align:center;
+      border:1px solid rgba(255,255,255,.08);
+    }
+    #mobile-menu .nav a:hover{background:rgba(255,255,255,.10)}
+    .cta{display:none}
+  }
+
+  .hero{position:relative;min-height:42vh;display:grid;place-items:center;text-align:center;overflow:hidden}
+  .hero.with-bg::before{content:"";position:absolute;inset:0;background:var(--hero-img) center/cover no-repeat;filter:brightness(.42)}
+  .hero-content{position:relative;z-index:1;padding:3rem 1rem}
+  .hero h1{font-size:clamp(28px,4.5vw,54px);margin:.2rem 0 .6rem}
+  .hero p{color:#ffffff;font-size:clamp(16px,2.2vw,20px);margin:0 auto 1rem;max-width:70ch}
+  .hero .cta-row{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;margin-top:1rem}
+
+  .section{padding:44px 0}
+  .section h2{text-align:center;font-size:clamp(22px,3vw,34px);margin:0 0 .8rem}
+  .underline{display:block;width:72px;height:4px;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:999px;margin:.5rem auto 0}
+
+  .cards{display:grid;gap:1rem;margin-top:1rem;grid-template-columns:1fr}
+  @media (min-width:700px){ .cards{grid-template-columns:repeat(2,1fr)} }
+  @media (min-width:1024px){ .cards{grid-template-columns:repeat(3,1fr)} }
+  .card{background:var(--card) !important;border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+  .card .content{padding:1rem}
+  .card h3{margin:.2rem 0 .4rem;color:var(--gold)}
+  .muted{color:var(--muted)}
+
+  .contact-text{white-space:pre-wrap;margin:0;font-family:inherit;color:var(--text)}
+
+  .lead{display:grid;grid-template-columns:1fr;gap:1.2rem;align-items:start;margin-top:1rem}
+  .lead *:not(img):not(.btn):not(.card){background:transparent !important}
+  .lead .photo{border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.1);max-width:320px}
+
+  @media (max-width:767px){
+    #geschaeftsfuehrer .container{width:100%;padding-left:12px;padding-right:12px}
+    .lead{gap:.8rem}
+    .lead .photo{max-width:none;width:100%;border-radius:16px;overflow:hidden}
+    .lead .photo img{width:100%;height:auto;display:block}
+    #geschaeftsfuehrer .bio{text-align:center}
+    #geschaeftsfuehrer .links{justify-content:center}
+  }
+  @media (min-width:768px){
+    .lead{grid-template-columns:minmax(220px,320px) 1fr}
+    .lead .bio{align-self:start}
+  }
+
+  .gallery{display:grid;gap:.7rem;margin-top:1rem}
+  .gallery{grid-template-columns:repeat(2, 1fr)}
+  @media (min-width:700px){ .gallery{grid-template-columns:repeat(3, 1fr)} }
+  @media (min-width:1024px){ .gallery{grid-template-columns:repeat(4, 1fr)} }
+  .gallery a{border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.08);box-shadow:0 4px 12px rgba(0,0,0,.3);display:block;background:transparent !important}
+  .thumb{position:relative;aspect-ratio:3/4;width:100%}
+  .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .25s ease}
+  .lead .photo img{width:100%;height:auto;display:block}
+  .lead .photo{justify-self:start}
+  .gallery a:hover .thumb img{transform:scale(1.04)}
+
+  form{display:grid;gap:.7rem;margin-top:1rem;max-width:640px;margin-inline:auto}
+  input,textarea{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);color:var(--text);padding:.75rem;border-radius:12px;outline:none}
+  input:focus,textarea:focus{border-color:var(--ring);box-shadow:0 0 0 4px rgba(250,204,21,.15)}
+  textarea{min-height:140px}
+
+  footer{padding:26px 0;color:var(--muted);text-align:center;border-top:1px solid rgba(255,255,255,.08)}
+
+  .lightbox{
+    position:fixed;inset:0;background:rgba(0,0,0,.92);
+    display:flex;align-items:center;justify-content:center;
+    z-index:2000;opacity:0;pointer-events:none;transition:opacity .2s;
+    padding:16px;
+    padding-top:calc(16px + env(safe-area-inset-top));
+    padding-right:calc(16px + env(safe-area-inset-right));
+    padding-bottom:calc(16px + env(safe-area-inset-bottom));
+    padding-left:calc(16px + env(safe-area-inset-left));
+  }
+  .lightbox.active{opacity:1;pointer-events:auto}
+  .lightbox-content{position:relative;max-width:min(92vw,1200px);max-height:88vh}
+  .lightbox-content img{max-width:min(92vw,1200px);max-height:88vh;border-radius:12px;object-fit:contain;touch-action:pan-y;user-select:none}
+  .lb-btn{position:fixed;width:var(--lb-btn-size);height:var(--lb-btn-size);padding:0;display:grid;place-items:center;border-radius:50%;background:rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:var(--lb-font);cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+  .lb-btn:hover{background:rgba(0,0,0,.85)}
+  .lb-prev{left:24px;top:50%;transform:translateY(-50%)}
+  .lb-next{right:24px;top:50%;transform:translateY(-50%)}
+  .lb-close{top:calc(14px + env(safe-area-inset-top));right:calc(14px + env(safe-area-inset-right));background:var(--danger);border:none;font-size:var(--lb-font-close);font-weight:800;box-shadow:0 6px 16px rgba(0,0,0,.45)}
+  .lb-close:hover{background:#ff564d}
+  @media (max-width:700px){.lb-prev{left:10px}.lb-next{right:10px}}
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <div class="container top">
+    <div class="brand">
+      <a id="logo-link" href="#" onclick="location.reload()">
+        <img id="logo" src="images/logo.webp" alt="Rett Bau Logo" decoding="sync" fetchpriority="high">
+      </a>
+      <span>Rett Bau</span>
+    </div>
+    <nav class="nav" id="nav-desktop">
+      <a href="#leistungen">Leistungen</a>
+      <a href="#geschaeftsfuehrer">Geschäftsführer</a>
+      <a href="#arbeiten">Unsere Arbeiten</a>
+      <a href="#kontakt">Kontakt</a>
+      <a href="#impressum">Impressum</a>
+    </nav>
+    <div class="cta">
+      <a class="btn" href="tel:+4917625302773">📞 +4917625302773</a>
+      <a class="btn" target="_blank" rel="noopener" href="https://m.facebook.com/profile.php?id=61579125225103">📘 Facebook</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </div>
+  <div id="mobile-menu">
+    <div class="menu-panel">
+      <nav class="nav">
+        <a href="#leistungen">Leistungen</a>
+        <a href="#geschaeftsfuehrer">Geschäftsführer</a>
+        <a href="#arbeiten">Unsere Arbeiten</a>
+        <a href="#kontakt">Kontakt</a>
+        <a href="#impressum">Impressum</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="home">
+  <div class="hero-content">
+    <h1>Willkommen bei <span style="color:var(--gold)">Rett Bau</span></h1>
+    <p>Ihr zuverlässiger Partner für Bau- und Renovierungsarbeiten</p>
+    <div class="cta-row">
+      <a href="#kontakt" class="btn gold">Kostenloses Angebot anfordern</a>
+      <a href="#arbeiten" class="btn">Unsere Arbeiten ansehen</a>
+    </div>
+  </div>
+</section>
+
+<section id="leistungen" class="section">
+  <div class="container">
+    <h2>Leistungen</h2>
+    <span class="underline"></span>
+    <div class="cards">
+      <article class="card"><div class="content"><h3>Badsanierung</h3><p class="muted">Moderne und hochwertige Badrenovierungen.</p></div></article>
+      <article class="card"><div class="content"><h3>Bodenverlegung</h3><p class="muted">Fliesen, Parkett und Laminat – präzise verlegt.</p></div></article>
+      <article class="card"><div class="content"><h3>Komplettrenovierung</h3><p class="muted">Von Planung bis Abnahme – alles aus einer Hand.</p></div></article>
+      <article class="card"><div class="content"><h3>Wunsch Projekte</h3><p class="muted">Von A wie Ausbau bis Z wie Zierleiste: Alles aus einer Hand, auf Wunsch für Sie.</p></div></article>
+      <article class="card"><div class="content"><h3>Küchensanierung</h3><p class="muted">Neue Fronten, Arbeitsplatten, Fliesen & Anschlüsse – sauber koordiniert und passgenau montiert.</p></div></article>
+      <article class="card"><div class="content"><h3>Türen &amp; Zargen</h3><p class="muted">Demontage, Einbau und Ausrichtung – inklusive Beschläge, Dichtungen und sauberen Anschlüssen.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<section id="geschaeftsfuehrer" class="section">
+  <div class="container">
+    <h2>Geschäftsführer</h2>
+    <span class="underline"></span>
+    <div class="lead">
+      <div class="photo">
+        <img id="lead-photo" src="images/Geschaeftsfuehrer.webp" alt="Daniel Rettinger – Geschäftsführer" decoding="sync" fetchpriority="high">
+      </div>
+      <div class="bio">
+        <h3>Daniel Rettinger</h3>
+        <p>Inhaber und Geschäftsführer von Rett Bau. Ihr Ansprechpartner für Bau- und Renovierungsprojekte – zuverlässig, präzise und termingerecht.</p>
+        <div class="links">
+          <a class="btn gold" href="tel:+4917625302773">📞 +4917625302773</a>
+          <a class="btn" href="mailto:info@rettbau.de">✉️ info@rettbau.de</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="wunschprojekte" class="section">
+  <div class="container">
+    <h2>Wunsch Projekte</h2>
+    <span class="underline"></span>
+    <div class="gallery" id="gallery-wunsch"></div>
+  </div>
+</section>
+
+<section id="arbeiten" class="section">
+  <div class="container">
+    <h2>Unsere Arbeiten</h2>
+    <span class="underline"></span>
+    <div class="gallery" id="gallery"></div>
+  </div>
+</section>
+
+<section id="kontakt" class="section">
+  <div class="container">
+    <h2>Kontakt</h2>
+    <span class="underline"></span>
+    <div class="card contact-card" style="margin-top:1rem;">
+      <div class="content">
+<pre id="contact-text" class="contact-text">Rett Bau
+Daniel Rettinger
+Bahnhofstraße 16
+85567 Grafing bei München
+Telefon: +49 176 25302773
+E-Mail: info@rettbau.de</pre>
+        <div class="links" style="margin-top:.6rem;display:flex;gap:.6rem;flex-wrap:wrap">
+          <button id="copy-contact" class="btn">📋 Text kopieren</button>
+          <a class="btn" href="mailto:info@rettbau.de">✉️ info@rettbau.de</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="impressum" class="section">
+  <div class="container">
+    <h2>Impressum</h2>
+    <span class="underline"></span>
+    <div class="card" style="margin-top:1rem;">
+      <div class="content">
+        <p><strong>Angaben gemäß § 5 TMG</strong></p>
+        <p>Rett Bau<br>Inhaber: Daniel Rettinger<br><em>Anschrift:</em> Bahnhofstraße 16, 85567 Grafing bei München<br>
+        <em>Telefon:</em> +4917625302773<br>
+        <em>E-Mail:</em> info@rettbau.de</p>
+        <p><strong>USt-IdNr.:</strong> in Beantragung</p>
+        <p><strong>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</strong><br>Daniel Rettinger, Bahnhofstraße 16, 85567 Grafing bei München</p>
+        <p><strong>Haftung für Inhalte</strong><br>Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. 
+        Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen.</p>
+        <p><strong>Haftung für Links</strong><br>Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. 
+        Deshalb können wir für diese fremden Inhalte keine Gewähr übernehmen.</p>
+        <p><strong>Urheberrecht</strong><br>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-links">
+      <a href="#impressum">Impressum</a> · <a href="#kontakt">Kontakt</a>
+    </div>
+    <div style="margin-top:.4rem">© 2025 Rett Bau – Alle Rechte vorbehalten.</div>
+    <div style="margin-top:.4rem"><a class="btn" href="tel:+4917625302773">📞 +4917625302773</a></div>
+  </div>
+</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-content">
+    <button class="lb-btn lb-close" id="lb-close" aria-label="Schließen">✕</button>
+    <button class="lb-btn lb-prev" id="lb-prev" aria-label="Vorheriges Bild">❮</button>
+    <img id="lb-img" src="" alt="">
+    <button class="lb-btn lb-next" id="lb-next" aria-label="Nächstes Bild">❯</button>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  setupBurger();
+  setupHero();
+  setupGalleryPreload();
+  setupWunschGalleryPreload();
+  setupLightbox();
+  setupCopyContact();
+  const logo = document.getElementById('logo');
+  if (logo){ logo.addEventListener('click', () => location.reload()); }
+});
+
+function setupBurger(){
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  burger.addEventListener('click', () => {
+    const open = !mobileMenu.classList.contains('open');
+    mobileMenu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+  });
+  mobileMenu.addEventListener('click', (e)=>{
+    if(e.target.tagName==='A'){
+      mobileMenu.classList.remove('open');
+      burger.setAttribute('aria-expanded','false');
+    }
+  });
+}
+
+function setupHero(){
+  const hero = document.querySelector('.hero');
+  const test = new Image();
+  test.onload = () => {
+    hero.classList.add('with-bg');
+    hero.style.setProperty('--hero-img', "url('images/Willkommen.webp')");
+  };
+  test.onerror = () => {
+    const test2 = new Image();
+    test2.onload = () => {
+      hero.classList.add('with-bg');
+      hero.style.setProperty('--hero-img', "url('images/willkommen.webp')");
+    };
+    test2.src = 'images/willkommen.webp';
+  };
+  test.src = 'images/Willkommen.webp';
+}
+
+function setupCopyContact(){
+  const btn = document.getElementById('copy-contact');
+  if(!btn) return;
+  btn.addEventListener('click', () => {
+    const text = document.getElementById('contact-text').innerText;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(()=>flashCopied(btn)).catch(()=>fallbackCopy(text, btn));
+    }else{
+      fallbackCopy(text, btn);
+    }
+  });
+}
+function flashCopied(btn){
+  const old = btn.textContent;
+  btn.textContent = '✔️ Kopiert';
+  btn.disabled = true;
+  setTimeout(()=>{ btn.textContent = old; btn.disabled=false; }, 1400);
+}
+function fallbackCopy(text, btn){
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try{ document.execCommand('copy'); }catch(e){}
+  document.body.removeChild(ta); flashCopied(btn);
+}
+
+let CURRENT_HREF = null;
+const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lb-img');
+const lbPrev = document.getElementById('lb-prev');
+const lbNext = document.getElementById('lb-next');
+const lbClose = document.getElementById('lb-close');
+lbPrev.addEventListener('click', ()=>nav(-1));
+lbNext.addEventListener('click', ()=>nav(1));
+lbClose.addEventListener('click', closeLightbox);
+lb.addEventListener('click', (e)=>{ if(e.target === lb) closeLightbox(); });
+document.addEventListener('keydown', (e)=>{
+  if(!lb.classList.contains('active')) return;
+  if(e.key === 'Escape') closeLightbox();
+  if(e.key === 'ArrowLeft') nav(-1);
+  if(e.key === 'ArrowRight') nav(1);
+});
+
+let tStartX=0, tStartY=0, tTime=0;
+function onTouchStart(e){
+  const t=e.touches[0]; tStartX=t.clientX; tStartY=t.clientY; tTime=Date.now();
+}
+function onTouchEnd(e){
+  const t=(e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0] : null; if(!t) return;
+  const dx=t.clientX - tStartX; const dy=t.clientY - tStartY; const dt=Date.now()-tTime;
+  const HTHRESH=50, VMAX=60, TMAX=700;
+  if(dt<=TMAX && Math.abs(dx)>=HTHRESH && Math.abs(dy)<=VMAX){ dx<0 ? nav(1) : nav(-1); }
+}
+lbImg.addEventListener('touchstart', onTouchStart, {passive:true});
+lbImg.addEventListener('touchend', onTouchEnd, {passive:true});
+
+function getThumbs(){ return Array.from(document.querySelectorAll('.gallery-item')); }
+function openLightboxByHref(href){ CURRENT_HREF = href; lbImg.src = href; lb.classList.add('active'); document.body.classList.add('no-scroll'); }
+function nav(step){
+  const thumbs = getThumbs(); const idx = thumbs.findIndex(a => a.getAttribute('href') === CURRENT_HREF);
+  if(idx === -1 || !thumbs.length) return;
+  const nextIdx = (idx + step + thumbs.length) % thumbs.length;
+  const nextHref = thumbs[nextIdx].getAttribute('href');
+  CURRENT_HREF = nextHref; lbImg.src = nextHref;
+}
+function closeLightbox(){ lb.classList.remove('active'); document.body.classList.remove('no-scroll'); }
+
+/* === Galerie-Loader ohne Lazy-Loading, mit Pre-Probe & sofortigem Render === */
+(function(){
+  function tryLoad(candidates, onOk){
+    let idx = 0;
+    function next(){
+      if(idx >= candidates.length) return;
+      const src = candidates[idx++];
+      const img = new Image();
+      img.decoding = 'sync';
+      img.fetchPriority = 'high';
+      img.onload = () => onOk(src);
+      img.onerror = next;
+      img.src = src;
+    }
+    next();
+  }
+  function setupNumberedGallery(galleryId, primaryFolder, legacyPattern){
+    const gallery = document.getElementById(galleryId);
+    if(!gallery) return;
+    const found = new Map();
+    let scheduled = false;
+
+    function renderNow(){
+      scheduled = false;
+      const items = Array.from(found.entries()).map(([n,src])=>({n,src})).sort((a,b)=>a.n-b.n);
+      const frag = document.createDocumentFragment();
+      for(const it of items){
+        if(gallery.querySelector(`a.gallery-item[data-idx="${it.n}"]`)) continue;
+        const a = document.createElement('a');
+        a.href = it.src; a.dataset.idx = it.n; a.className = 'gallery-item';
+        const wrap = document.createElement('div'); wrap.className = 'thumb';
+        const img = document.createElement('img');
+        /* WICHTIG: kein lazy, sofort laden und rendern */
+        img.decoding = 'sync';
+        img.fetchPriority = 'high';
+        img.src = it.src;
+        img.alt = `${galleryId} ${it.n}`;
+        wrap.appendChild(img); a.appendChild(wrap); frag.appendChild(a);
+      }
+      if(frag.childNodes.length) gallery.appendChild(frag);
+    }
+
+    for(let n=1; n<=200; n++){
+      const candidates = [];
+      if(primaryFolder){ candidates.push(encodeURI(`images/${primaryFolder}/${n}.webp`)); }
+      if(legacyPattern === 'p') candidates.push(`images/p${n}.webp`);
+      if(legacyPattern === 'plain') candidates.push(`images/${n}.webp`);
+      tryLoad(candidates, (src) => {
+        if(!found.has(n)){
+          found.set(n, src);
+          if(!scheduled){ scheduled = true; queueMicrotask(renderNow); }
+        }
+      });
+    }
+    gallery.addEventListener('click', (e)=>{
+      const a = e.target.closest('a.gallery-item'); if(!a) return;
+      e.preventDefault(); openLightboxByHref(a.getAttribute('href'));
+    });
+  }
+  window.setupGalleryPreload = function(){
+    setupNumberedGallery('gallery', 'Unsere Arbeiten', 'plain');
+  };
+  window.setupWunschGalleryPreload = function(){
+    setupNumberedGallery('gallery-wunsch', 'Wunsch Projekte', 'p');
+  };
+})();
+</script>
+</body>
+</html>
